@@ -71,26 +71,39 @@ const tweets = [
     }
 ]
 
-app.post('/sign-up', (req, res) => {
-    users.push(req.body)
-    res.send(tweets)
 
+app.post('/sign-up', (req, res) => {
+
+    if (!req.body.username || !req.body.avatar) {
+        res.status(400).send("Todos os campos são obrigatórios")
+    }
+    users.push(req.body)
+    res.send("OK")
+
+})
+
+app.post('/tweets', (req, res) => {
+    if (!req.body.tweet) {
+        res.status(400).send("É obrigatório escrever algo")
+    }
+    tweets.push(req.body)
+    res.send("OK")
 })
 
 app.get('/tweets', (req, res) => {
     const response = []
-    const lastTweet = tweets.length-1 
+    const lastTweet = tweets.length - 1
     const stopTweet = lastTweet - 10
-    
 
-    for (let i = lastTweet, k=0; i > stopTweet; i--, k++) {
+
+    for (let i = lastTweet, k = 0; i > stopTweet; i--, k++) {
         console.log(i)
-        const positionUser = users.findIndex(element=>tweets[i].username === element.username)
+        const positionUser = users.findIndex(element => tweets[i].username === element.username)
         response.push(tweets[i])
-        if( positionUser > -1){
+        if (positionUser > -1) {
             const avatar = users[positionUser].avatar
-            response[k].avatar = avatar        
-        }else{
+            response[k].avatar = avatar
+        } else {
             response[k].avatar = ""
         }
 
