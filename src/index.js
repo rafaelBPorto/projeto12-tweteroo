@@ -18,10 +18,6 @@ app.post('/sign-up', (req, res) => {
 
 })
 
-app.get('/sign-up', (req, res) => {
-    res.send(users)
-})
-
 app.post('/tweets', (req, res) => {
     if (!req.body.tweet) {
         res.status(400).send("Todos os campos são obrigatórios!");
